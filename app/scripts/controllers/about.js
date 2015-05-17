@@ -7,7 +7,7 @@
  * # AboutCtrl
  * Controller of the chronecoWebApp
  */
-angular.module('chronecoWebApp')
+angular.module('chroneco')
   .controller('AboutCtrl', function ($scope) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',

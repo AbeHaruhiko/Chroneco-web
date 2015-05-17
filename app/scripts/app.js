@@ -34,4 +34,7 @@ angular
       .otherwise({
         redirectTo: '/'
       });
+
+    Parse.initialize("mQeWb7iTmJSAcUjkSGwPT52D8bCJ6jfeevEk8tm6", "WTlHeCuzEhsVkeOA6CRKul8UGYVHuMLpbd10o0hg");
+
   });
