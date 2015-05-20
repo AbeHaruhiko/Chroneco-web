@@ -9,12 +9,13 @@
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap-fileinput/css/fileinput.min.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/custom.css">
     <!-- endbuild -->
-    <script src="//www.parsecdn.com/js/parse-1.4.2.min.js"></script>
   </head>
   <body ng-app="chroneco">
     <!--[if lt IE 7]>
@@ -41,7 +42,7 @@
 
             <ul class="nav navbar-nav">
               <li class="active"><a href="#/">Home</a></li>
-              <li><a ng-href="#/about">About</a></li>
+              <li><a ng-href="#/member">社員情報</a></li>
               <li><a ng-href="#/">Contact</a></li>
             </ul>
           </div>
@@ -82,16 +83,19 @@
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/bootstrap-fileinput/js/fileinput.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
-        <script src="scripts/controllers/about.js"></script>
+        <script src="scripts/controllers/member.js"></script>
         <script src="scripts/services/authservice.js"></script>
         <script src="scripts/controllers/login.js"></script>
         <script src="scripts/util/formatDate.js"></script>
+        <script src="scripts/services/memberservice.js"></script>
+        <script src="scripts/vendor/parse-1.4.2.min.js"></script>
         <!-- endbuild -->
 </body>
 </html>
