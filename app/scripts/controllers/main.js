@@ -8,7 +8,7 @@
  * Controller of the webApp
  */
 angular.module('chroneco')
-  .controller('MainCtrl', function ($scope) {
+  .controller('MainCtrl', function ($scope, MemberService) {
 
     $scope.getInOutTimes = function() {
 
@@ -35,6 +35,12 @@ angular.module('chroneco')
     		query.descending("createdAt");
     		query.find({
     		  success: function(results) {
+            for(var index = 0; index < results.length; index++) {
+              var result = results[index];
+              result.set('date', formatDate(result.get('date'), 'YYYY/MM/DD'));
+              result.set('in', formatDate(result.get('in'), 'hh:mm'));
+              result.set('out', formatDate(result.get('out'), 'hh:mm'));
+            }
     		  	$scope.$apply(function() {
     			  	$scope.inOutTimeList = results;
     		  	});
@@ -47,22 +53,31 @@ angular.module('chroneco')
 
     $scope.getMembers = function() {
 
-    		var Member = Parse.Object.extend("Member");
-    		var query = new Parse.Query(Member);
-    		query.ascending("dispOrder");
-    		query.find({
-    		  success: function(results) {
-    		  	$scope.$apply(function() {
-    			  	$scope.memberList = results;
-    		  	});
-    		  },
-    		  error: function(error) {
-    		    alert("Error: " + error.code + " " + error.message);
-    		  }
-    		});
+    		// var Member = Parse.Object.extend("Member");
+    		// var query = new Parse.Query(Member);
+    		// query.ascending("dispOrder");
+    		// query.find({
+    		//   success: function(results) {
+    		//   	$scope.$apply(function() {
+    		// 	  	$scope.memberList = results;
+    		//   	});
+    		//   },
+    		//   error: function(error) {
+    		//     alert("Error: " + error.code + " " + error.message);
+    		//   }
+    		// });
+
+        // 成功時のCallback関数を渡して、MemberService.getMembersを呼ぶ。
+        var memberList = MemberService.getMembers(function(memberList) {
+          $scope.$apply(function() {
+            $scope.memberList = memberList;
+          });
+        });
+
+
     };
 
-    Parse.initialize("mQeWb7iTmJSAcUjkSGwPT52D8bCJ6jfeevEk8tm6", "WTlHeCuzEhsVkeOA6CRKul8UGYVHuMLpbd10o0hg");
+    // Parse.initialize("mQeWb7iTmJSAcUjkSGwPT52D8bCJ6jfeevEk8tm6", "WTlHeCuzEhsVkeOA6CRKul8UGYVHuMLpbd10o0hg");
     // var TestObject = Parse.Object.extend("TestObject");
     // var testObject = new TestObject();
     // testObject.save({foo: "bar"}).then(function(object) {
