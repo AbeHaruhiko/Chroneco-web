@@ -35,6 +35,12 @@ angular.module('chroneco')
     		query.descending("createdAt");
     		query.find({
     		  success: function(results) {
+            for(var index = 0; index < results.length; index++) {
+              var result = results[index];
+              result.set('date', formatDate(result.get('date'), 'YYYY/MM/DD'));
+              result.set('in', formatDate(result.get('in'), 'hh:mm'));
+              result.set('out', formatDate(result.get('out'), 'hh:mm'));
+            }
     		  	$scope.$apply(function() {
     			  	$scope.inOutTimeList = results;
     		  	});
