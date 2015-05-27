@@ -10,6 +10,10 @@
 angular.module('chroneco')
   .controller('MainCtrl', function ($scope, MemberService) {
 
+    $scope.currentMember = null;
+    $scope.currentTargetMonth = null;
+
+
     $scope.getInOutTimes = function() {
 
     		var InOutTime = Parse.Object.extend("InOutTime");
@@ -27,11 +31,30 @@ angular.module('chroneco')
     		});
     };
 
-    $scope.getMemberInOutTimes = function(member) {
+    $scope.setCurrentMember = function(member) {
+      $scope.currentMember = member;
+    }
+
+    $scope.setCurrentTargetMonth = function(month) {
+      $scope.currentTargetMonth = month;
+    }
+
+    $scope.getMemberInOutTimes = function() {
 
     		var InOutTime = Parse.Object.extend("InOutTime");
     		var query = new Parse.Query(InOutTime);
-        query.equalTo("member", member);
+
+        // 対象者絞込
+        if ($scope.currentMember) {
+          query.equalTo("member", $scope.currentMember);
+        }
+
+        // 対象年月絞込
+        if ($scope.currentTargetMonth) {
+          query.greaterThanOrEqualTo("date", moment($scope.currentTargetMonth + "-01", "YYYY-MM-DD").toDate());
+          query.lessThanOrEqualTo("date", moment($scope.currentTargetMonth + "-01").endOf('month').toDate());
+        }
+
     		query.descending("createdAt");
     		query.find({
     		  success: function(results) {

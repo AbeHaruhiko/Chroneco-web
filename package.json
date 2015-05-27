@@ -1,7 +1,9 @@
 {
   "name": "chronecoweb",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "moment": "^2.10.3"
+  },
   "repository": {},
   "devDependencies": {
     "grunt": "^0.4.5",

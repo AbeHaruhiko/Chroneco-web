@@ -4,7 +4,7 @@
     <span class="caret"></span>
   </button>
   <ul class="dropdown-menu" dropdown-menu role="menu" aria-labelledby="dropdownMenu1">
-    <li role="presentation" ng-repeat="member in memberList"><a role="menuitem" tabindex="-1" ng-click="getMemberInOutTimes(member)">{{member.get('name')}}</a></li>
+    <li role="presentation" ng-repeat="member in memberList"><a role="menuitem" tabindex="-1" ng-click="setCurrentMember(member);getMemberInOutTimes();">{{member.get('name')}}</a></li>
   </ul>
 </span>
 <span class="dropdown" dwopdown>
@@ -13,7 +13,7 @@
     <span class="caret"></span>
   </button>
   <ul class="dropdown-menu" dropdown-menu role="menu" aria-labelledby="dropdownMenu1">
-    <li role="presentation" ng-repeat="targetMonth in targetMonthList"><a role="menuitem" tabindex="-1" ng-click="getMemberInOutTimes(targetMonth)">{{targetMonth}}</a></li>
+    <li role="presentation" ng-repeat="targetMonth in targetMonthList"><a role="menuitem" tabindex="-1" ng-click="setCurrentTargetMonth(targetMonth);getMemberInOutTimes();">{{targetMonth}}</a></li>
   </ul>
 </span>
 <hr/>
