@@ -55,7 +55,7 @@ angular.module('chroneco')
           query.lessThanOrEqualTo("date", moment($scope.currentTargetMonth + "-01").endOf('month').toDate());
         }
 
-    		query.descending("createdAt");
+    		query.ascending("date");
     		query.find({
     		  success: function(results) {
             for(var index = 0; index < results.length; index++) {
