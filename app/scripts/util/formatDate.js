@@ -5,7 +5,12 @@
  * @return {String}          フォーマット済み日付
  */
 var formatDate = function (date, format) {
-  if (!format) format = 'YYYY-MM-DD hh:mm:ss.SSS';
+  if (!date) {
+    return "";
+  }
+  if (!format) {
+    format = 'YYYY-MM-DD hh:mm:ss.SSS';
+  }
   format = format.replace(/YYYY/g, date.getFullYear());
   format = format.replace(/MM/g, ('0' + (date.getMonth() + 1)).slice(-2));
   format = format.replace(/DD/g, ('0' + date.getDate()).slice(-2));
