@@ -77,6 +77,22 @@ angular.module('chroneco')
 
     };
 
+    // 対象年月ドロップダウン用リスト作成
+    $scope.targetMonthList = (function() {
+
+      var monthList = [];
+      // 即時実行した結果を$scopeへ格納する。
+      for (var year = 2015; year <= new Date().getFullYear(); year++) {
+        for (var month = 1; month <= 12; month++) {
+          monthList.push(year + "-" + ("0" + month).slice(-2));
+        }
+      }
+      return monthList;
+
+    })();
+
+
+
     // Parse.initialize("mQeWb7iTmJSAcUjkSGwPT52D8bCJ6jfeevEk8tm6", "WTlHeCuzEhsVkeOA6CRKul8UGYVHuMLpbd10o0hg");
     // var TestObject = Parse.Object.extend("TestObject");
     // var testObject = new TestObject();
