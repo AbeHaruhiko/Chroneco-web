@@ -15,7 +15,7 @@ angular.module('chroneco')
 
     $scope.signUp = function(form) {
       var user = new Parse.User();
-      user.set("email", form.email);
+      user.set("email", form.username);
       user.set("username", form.username);
       user.set("password", form.password);
 

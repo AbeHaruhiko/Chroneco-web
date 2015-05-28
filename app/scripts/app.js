@@ -77,7 +77,7 @@ angular
 
       $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams){
           if (toState.requireLogin) {
-              if (!AuthService.currentUser) {
+              if (!AuthService.currentUser || !AuthService.currentUser.emailVerified) {
                   $state.go('login');
                   e.preventDefault();
               }
