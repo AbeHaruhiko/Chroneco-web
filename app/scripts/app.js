@@ -1,8 +1,11 @@
 'use strict';
 
+
+Parse.initialize("mQeWb7iTmJSAcUjkSGwPT52D8bCJ6jfeevEk8tm6", "WTlHeCuzEhsVkeOA6CRKul8UGYVHuMLpbd10o0hg");
+
 /**
  * @ngdoc overview
- * @name chronecoWebApp
+ * @name chroneco
  * @description
  * # chronecoWebApp
  *
@@ -15,26 +18,69 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'ui.router'
   ])
-  .config(function ($routeProvider) {
-    $routeProvider
-      .when('/', {
+  // .config(function ($routeProvider) {
+  //   $routeProvider
+  //     .when('/', {
+  //       templateUrl: 'views/main.html',
+  //       controller: 'MainCtrl'
+  //     })
+  //     .when('/member', {
+  //       templateUrl: 'views/member.html',
+  //       controller: 'MemberController'
+  //     })
+  //     .when('/login', {
+  //       templateUrl: 'views/login.html',
+  //       controller: 'LoginCtrl'
+  //     })
+  //     .otherwise({
+  //       redirectTo: '/'
+  //     });
+  //
+  //   Parse.initialize("mQeWb7iTmJSAcUjkSGwPT52D8bCJ6jfeevEk8tm6", "WTlHeCuzEhsVkeOA6CRKul8UGYVHuMLpbd10o0hg");
+  //
+  // });
+
+  .config([
+    '$stateProvider',
+    '$urlRouterProvider',
+    function($stateProvider,$urlRouterProvider){
+      $urlRouterProvider.otherwise("/");
+      $stateProvider
+      .state('main', {
+        url: '/',
         templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        controller: 'MainCtrl',
+        reuireLogin: true
       })
-      .when('/member', {
+      .state('member', {
+        url: '/member',
         templateUrl: 'views/member.html',
-        controller: 'MemberController'
+        controller: 'MemberController',
+        requireLogin: true
       })
-      .when('/login', {
+      .state('login', {
+        url: '/login',
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
       })
-      .otherwise({
-        redirectTo: '/'
+    }
+
+  ])
+
+
+
+  .run(['$rootScope', '$state', 'AuthService', function ($rootScope, $state, AuthService) {
+
+
+      $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams){
+          if (toState.requireLogin) {
+              if (!AuthService.currentUser) {
+                  $state.go('login');
+                  e.preventDefault();
+              }
+          }
       });
-
-    Parse.initialize("mQeWb7iTmJSAcUjkSGwPT52D8bCJ6jfeevEk8tm6", "WTlHeCuzEhsVkeOA6CRKul8UGYVHuMLpbd10o0hg");
-
-  });
+  }]);

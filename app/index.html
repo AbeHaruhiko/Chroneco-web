@@ -52,6 +52,7 @@
 
     <div class="container">
     <div ng-view=""></div>
+    <ui-view></ui-view>
     </div>
 
     <div class="footer">
@@ -90,6 +91,7 @@
     <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/vendor/parse-1.4.2.min.js"></script>
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/member.js"></script>
@@ -97,7 +99,6 @@
         <script src="scripts/controllers/login.js"></script>
         <script src="scripts/util/formatDate.js"></script>
         <script src="scripts/services/memberservice.js"></script>
-        <script src="scripts/vendor/parse-1.4.2.min.js"></script>
         <!-- endbuild -->
 </body>
 </html>

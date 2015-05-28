@@ -8,7 +8,7 @@
  * Controller of the chronecoWebApp
  */
 angular.module('chroneco')
-  .controller('LoginCtrl', function ($scope, $location) {
+  .controller('LoginCtrl', function ($scope, $location, $state, AuthService) {
 
 
     $scope.currentUser = Parse.User.current();
@@ -36,7 +36,9 @@ angular.module('chroneco')
         success: function(user) {
           $scope.$apply(function() {
             $scope.currentUser = user;
-            $location.path('/');
+            AuthService.currentUser = user;
+            // $location.path('/');
+            $state.go('main');
           });
         },
         error: function(user, error) {
@@ -48,7 +50,7 @@ angular.module('chroneco')
 
     $scope.logOut = function(form) {
       Parse.User.logOut();
-      $scope.currentUser = null;
+      $scope.currentUser = Parse.User.current();
     };
 
 
