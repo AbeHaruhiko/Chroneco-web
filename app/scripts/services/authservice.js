@@ -11,7 +11,7 @@ angular.module('chroneco')
   .service('AuthService', function ($state) {
     // AngularJS will instantiate a singleton by calling "new" on this function
 
-    this.currentUser = Parse.User.current();
+    // this.currentUser = Parse.User.current();
 
     this.signUp = function(form, callbacks) {
       var user = new Parse.User();
