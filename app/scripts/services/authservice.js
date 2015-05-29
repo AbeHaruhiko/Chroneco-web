@@ -32,22 +32,10 @@ angular.module('chroneco')
     //   });
     // };
     //
-    // $scope.logIn = function(form) {
-    //   var user = new Parse.User();
-    //   user.set("username", form.username);
-    //   user.set("password", form.password);
-    //
-    //   user.logIn(null, {
-    //     success: function(user) {
-    //       $scope.currentUser = user;
-    //       $scope.$apply(); // Notify AngularJS to sync currentUser
-    //     },
-    //     error: function(user, error) {
-    //       alert("Unable to login:  " + error.code + " " + error.message);
-    //     }
-    //   });
-    // };
-    //
+    this.logIn = function(form, callbacks) {
+      Parse.User.logIn(form.username, form.password, callbacks);
+    };
+
 
     this.logOut = function() {
       Parse.User.logOut();
