@@ -19,7 +19,8 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'ui.router'
+    'ui.router',
+    'ui.validate'
   ])
   // .config(function ($routeProvider) {
   //   $routeProvider
@@ -47,7 +48,7 @@ angular
     '$stateProvider',
     '$urlRouterProvider',
     function($stateProvider,$urlRouterProvider){
-      $urlRouterProvider.otherwise("/");
+      $urlRouterProvider.otherwise("/login/");
       $stateProvider
       .state('main', {
         url: '/',
@@ -62,7 +63,7 @@ angular
         requireLogin: true
       })
       .state('login', {
-        url: '/login',
+        url: '/login/?:waitingForEmailVerified',
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
       })
@@ -77,10 +78,13 @@ angular
 
       $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams){
           if (toState.requireLogin) {
-              if (!AuthService.currentUser || !AuthService.currentUser.emailVerified) {
-                  $state.go('login');
-                  e.preventDefault();
+              if (!AuthService.currentUser) {
+                $state.go('login');
               }
+              if (!AuthService.currentUser.emailVerified) {
+                $state.go('login', { waitingForEmailVerified: true });
+              }
+              e.preventDefault();
           }
       });
   }]);

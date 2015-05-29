@@ -8,12 +8,13 @@
  * Controller of the chronecoWebApp
  */
 angular.module('chroneco')
-  .controller('LoginCtrl', function ($scope, $location, $state, AuthService) {
+  .controller('LoginCtrl', function ($scope, $location, $state, AuthService, $stateParams) {
 
 
     $scope.currentUser = Parse.User.current();
 
     $scope.signUp = function(form) {
+
       var user = new Parse.User();
       user.set("email", form.username);
       user.set("username", form.username);
@@ -23,6 +24,7 @@ angular.module('chroneco')
         success: function(user) {
           $scope.$apply(function() {
             $scope.currentUser = user;
+            $state.go('login', { waitingForEmailVerified: true });
           });
         },
         error: function(user, error) {
@@ -37,7 +39,11 @@ angular.module('chroneco')
           $scope.$apply(function() {
             $scope.currentUser = user;
             AuthService.currentUser = user;
-            // $location.path('/');
+            if (!user.get('emailVerified')) {
+              $state.go('login', { waitingForEmailVerified: true });
+              return;
+            }
+
             $state.go('main');
           });
         },
@@ -53,5 +59,14 @@ angular.module('chroneco')
       $scope.currentUser = Parse.User.current();
     };
 
+    $scope.isS2softEmail = function(value) {
+      if (!value) {
+        return false;
+      }
+      var suffixS2soft = "@s2soft.co.jp";
+      return value.indexOf(suffixS2soft, value.length - suffixS2soft.length) !== -1;
+    };
+
+    $scope.waitingForEmailVerified = $stateParams.waitingForEmailVerified || !Parse.User.current().get('emailVerified');
 
   });

@@ -1,16 +1,21 @@
-<form ng-hide="currentUser">
+
+<div ng-show="waitingForEmailVerified">メールを送信しました。メールのURLクリック後、再度ログインしてください。</div>
+<form ng-show="!currentUser || waitingForEmailVerified" name="loginForm" novalidate>
   <h2>ログイン</h2>
-  Email: <input type="text" ng-model="user.username" /><br />
+  Email: <input type="email" ng-model="user.username" name="email" ui-validate=" 'isS2softEmail($value)' "/>
+  <span ng-show="loginForm.email.$dirty && loginForm.email.$error.validator">s2softのアドレスだけOKよ。</span><br />
   Password: <input type="password" ng-model="user.password" /><br />
-  <button ng-click="logIn(user)">Login</button>
+  <button ng-click="logIn(user)" ng-disabled="loginForm.email.$invalid">ログイン</button>
   <!-- <h2>Sign up</h2> -->
   <!-- Email: <input type="email" ng-model="user.email" /><br /> -->
   <!-- Password: <input type="password" ng-model="user.password_" /><br /> -->
-  <button ng-click="signUp(user)">Sign up</button>
+  <button ng-click="signUp(user)" ng-disabled="loginForm.email.$invalid">ユーザ登録</button>
 </form>
 
-<div ng-show="currentUser">
+<div ng-show="currentUser && !waitingForEmailVerified">
   <h2>Welcome {{currentUser.get('username')}}</h2>
   <p>You have been successfully logged in</p>
   <button ng-click="logOut()">Log out</button>
 </div>
+
+<pre>{{LoginCtrl.val | json}}</pre>
