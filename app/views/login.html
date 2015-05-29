@@ -1,6 +1,6 @@
 
-<div ng-show="waitingForEmailVerified">メールを送信しました。メールのURLクリック後、再度ログインしてください。</div>
-<form ng-show="!currentUser || waitingForEmailVerified" name="loginForm" novalidate>
+<div ng-show="currentUser && !currentUser.get('emailVerified')">メールを送信しました。メールのURLクリック後、再度ログインしてください。</div>
+<form ng-show="!currentUser || !currentUser.get('emailVerified')" name="loginForm" novalidate>
   <h2>ログイン</h2>
   Email: <input type="email" ng-model="user.username" name="email" ui-validate=" 'isS2softEmail($value)' "/>
   <span ng-show="loginForm.email.$dirty && loginForm.email.$error.validator">s2softのアドレスだけOKよ。</span><br />
@@ -12,10 +12,8 @@
   <button ng-click="signUp(user)" ng-disabled="loginForm.email.$invalid">ユーザ登録</button>
 </form>
 
-<div ng-show="currentUser && !waitingForEmailVerified">
+<div ng-show="currentUser && currentUser.get('emailVerified')">
   <h2>Welcome {{currentUser.get('username')}}</h2>
   <p>You have been successfully logged in</p>
   <button ng-click="logOut()">Log out</button>
 </div>
-
-<pre>{{LoginCtrl.val | json}}</pre>

@@ -67,6 +67,5 @@ angular.module('chroneco')
       return value.indexOf(suffixS2soft, value.length - suffixS2soft.length) !== -1;
     };
 
-    $scope.waitingForEmailVerified = $stateParams.waitingForEmailVerified || !Parse.User.current().get('emailVerified');
 
   });

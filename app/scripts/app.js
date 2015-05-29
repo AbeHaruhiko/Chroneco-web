@@ -54,7 +54,7 @@ angular
         url: '/',
         templateUrl: 'views/main.html',
         controller: 'MainCtrl',
-        reuireLogin: true
+        requireLogin: true
       })
       .state('member', {
         url: '/member',
@@ -78,13 +78,13 @@ angular
 
       $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams){
           if (toState.requireLogin) {
-              if (!AuthService.currentUser) {
+              if (!AuthService.currentUser || !Parse.User.current().get('emailVerified')) {
                 $state.go('login');
+                e.preventDefault();
               }
-              if (!AuthService.currentUser.emailVerified) {
-                $state.go('login', { waitingForEmailVerified: true });
-              }
-              e.preventDefault();
+              // if (!AuthService.currentUser.emailVerified) {
+              //   $state.go('login', { waitingForEmailVerified: true });
+              // }
           }
       });
   }]);
