@@ -48,7 +48,7 @@ angular
     '$stateProvider',
     '$urlRouterProvider',
     function($stateProvider,$urlRouterProvider){
-      $urlRouterProvider.otherwise("/login/");
+      $urlRouterProvider.otherwise("/login");
       $stateProvider
       .state('main', {
         url: '/',
@@ -63,7 +63,7 @@ angular
         requireLogin: true
       })
       .state('login', {
-        url: '/login/?:waitingForEmailVerified',
+        url: '/login',
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
       })

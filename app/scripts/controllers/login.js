@@ -24,7 +24,7 @@ angular.module('chroneco')
         success: function(user) {
           $scope.$apply(function() {
             $scope.currentUser = user;
-            $state.go('login', { waitingForEmailVerified: true });
+            $state.go('login');
           });
         },
         error: function(user, error) {
@@ -40,7 +40,7 @@ angular.module('chroneco')
             $scope.currentUser = user;
             AuthService.currentUser = user;
             if (!user.get('emailVerified')) {
-              $state.go('login', { waitingForEmailVerified: true });
+              $state.go('login');
               return;
             }
 
