@@ -8,7 +8,7 @@
  * Service in the chronecoWebApp.
  */
 angular.module('chroneco')
-  .service('AuthService', function () {
+  .service('AuthService', function ($state) {
     // AngularJS will instantiate a singleton by calling "new" on this function
 
     this.currentUser = Parse.User.current();
@@ -48,10 +48,12 @@ angular.module('chroneco')
     //   });
     // };
     //
-    // $scope.logOut = function(form) {
-    //   Parse.User.logOut();
-    //   $scope.currentUser = null;
-    // };
+
+    this.logOut = function() {
+      Parse.User.logOut();
+      this.currentUser = null;
+      $state.go("login");
+    };
 
 
   });
