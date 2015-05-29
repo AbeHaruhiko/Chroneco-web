@@ -31,7 +31,7 @@ angular.module('chroneco')
 
       var profilePhoto = $scope.currentMember.get("photo");
       $scope.currentMemberPhotoUrl = profilePhoto.url();
-    }
+    };
 
 
     // -------------------------------------
