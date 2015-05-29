@@ -13,25 +13,15 @@ angular.module('chroneco')
 
     this.currentUser = Parse.User.current();
 
-    // $scope.currentUser = Parse.User.current();
-    //
-    // $scope.signUp = function(form) {
-    //   var user = new Parse.User();
-    //   user.set("email", form.email);
-    //   user.set("username", form.username);
-    //   user.set("password", form.password);
-    //
-    //   user.signUp(null, {
-    //     success: function(user) {
-    //       $scope.currentUser = user;
-    //       $scope.$apply(); // Notify AngularJS to sync currentUser
-    //     },
-    //     error: function(user, error) {
-    //       alert("Unable to sign up:  " + error.code + " " + error.message);
-    //     }
-    //   });
-    // };
-    //
+    this.signUp = function(form, callbacks) {
+      var user = new Parse.User();
+      user.set("email", form.username);
+      user.set("username", form.username);
+      user.set("password", form.password);
+
+      user.signUp(null, callbacks);
+    };
+
     this.logIn = function(form, callbacks) {
       Parse.User.logIn(form.username, form.password, callbacks);
     };
