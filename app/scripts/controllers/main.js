@@ -41,37 +41,101 @@ angular.module('chroneco')
 
     $scope.getMemberInOutTimes = function() {
 
-    		var InOutTime = Parse.Object.extend("InOutTime");
-    		var query = new Parse.Query(InOutTime);
+        var retrievedInOutTimeRecList = null;
+        var retrievedMemberList = null;
 
-        // 対象者絞込
-        if ($scope.currentMember) {
-          query.equalTo("member", $scope.currentMember);
-        }
+        var promises = [];
 
-        // 対象年月絞込
-        if ($scope.currentTargetMonth) {
-          query.greaterThanOrEqualTo("date", moment($scope.currentTargetMonth + "-01", "YYYY-MM-DD").toDate());
-          query.lessThanOrEqualTo("date", moment($scope.currentTargetMonth + "-01").endOf('month').toDate());
-        }
+        var getInOutTimePromise = function () {
+          var promise = new Parse.Promise();
 
-    		query.ascending("date");
-    		query.find({
-    		  success: function(results) {
-            for(var index = 0; index < results.length; index++) {
-              var result = results[index];
-              result.set('date', formatDate(result.get('date'), 'YYYY/MM/DD'));
-              result.set('in', formatDate(result.get('in'), 'hh:mm'));
-              result.set('out', formatDate(result.get('out'), 'hh:mm'));
-            }
-    		  	$scope.$apply(function() {
-    			  	$scope.inOutTimeList = results;
-    		  	});
-    		  },
-    		  error: function(error) {
-    		    alert("Error: " + error.code + " " + error.message);
-    		  }
-    		});
+          var InOutTime = Parse.Object.extend("InOutTime");
+      		var query = new Parse.Query(InOutTime);
+
+          // 対象者絞込
+          if ($scope.currentMember) {
+            query.equalTo("member", $scope.currentMember);
+          }
+
+          // 対象年月絞込
+          if ($scope.currentTargetMonth) {
+            query.greaterThanOrEqualTo("date", moment($scope.currentTargetMonth + "-01", "YYYY-MM-DD").toDate());
+            query.lessThanOrEqualTo("date", moment($scope.currentTargetMonth + "-01").endOf('month').toDate());
+          }
+
+      		query.ascending("date");
+
+          query.find().then(function(results) {
+            retrievedInOutTimeRecList = results;
+            promise.resolve();
+          });
+          return promise;
+        };
+
+        var getMemberPromise = function () {
+          var promise = new Parse.Promise();
+
+          var Member = Parse.Object.extend("Member");
+      		var query = new Parse.Query(Member);
+
+          query.find().then(function(results) {
+            retrievedMemberList = results;
+            promise.resolve();
+          });
+          return promise;
+        };
+
+        promises.push(getInOutTimePromise());
+        promises.push(getMemberPromise());
+
+        Parse.Promise.when(promises).then(function() {
+
+          angular.forEach(retrievedInOutTimeRecList, function(retrievedInOutTimeRec) {
+            angular.forEach(retrievedMemberList, function(retrievedMember) {
+              if (retrievedInOutTimeRec.get('member').id === retrievedMember.id) {
+                retrievedInOutTimeRec.set('memberName', retrievedMember.get('name'));
+              }
+            });
+          });
+
+          $scope.$apply(function() {
+            $scope.inOutTimeList = retrievedInOutTimeRecList;
+          });
+        });
+
+        // query.find().then(function(results) {
+        //
+        //   retrievedInOutTimeRecList = results;
+        //
+        // }).then(function() {
+        //   $scope.$apply(function() {
+        //     $scope.inOutTimeList = retrievedInOutTimeRecList;
+        //   });
+        // });
+
+    		// query.find({
+    		//   success: function(results) {
+        //     for(var index = 0; index < results.length; index++) {
+        //       var result = results[index];
+        //       result.set('date', formatDate(result.get('date'), 'YYYY/MM/DD'));
+        //       result.set('in', formatDate(result.get('in'), 'hh:mm'));
+        //       result.set('out', formatDate(result.get('out'), 'hh:mm'));
+        //
+        //       var member = result.get('member');
+        //       member.fetch({
+        //         success: function(member) {
+        //           result.set("memberName", member.get("name"));
+        //         }
+        //       });
+        //     }
+    		//   	$scope.$apply(function() {
+    		// 	  	$scope.inOutTimeList = results;
+    		//   	});
+    		//   },
+    		//   error: function(error) {
+    		//     alert("Error: " + error.code + " " + error.message);
+    		//   }
+    		// });
     };
 
     $scope.getMembers = function() {

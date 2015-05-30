@@ -19,10 +19,14 @@
 <hr/>
 {{currentMember.get('name')}}
 <table class="table table-bordered .table-striped">
+  <th>氏名</th>
   <th>日付</th>
   <th>出勤</th>
   <th>退勤</th>
   <tr ng-repeat="inOutTime in inOutTimeList">
+    <td>
+      {{inOutTime.get('memberName')}}
+    </td>
     <td>
       {{inOutTime.get('date')}}
     </td>
