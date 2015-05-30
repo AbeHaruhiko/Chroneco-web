@@ -66,6 +66,14 @@ angular.module('chroneco')
       		query.ascending("date");
 
           query.find().then(function(results) {
+
+            for(var index = 0; index < results.length; index++) {
+              var result = results[index];
+              result.set('date', formatDate(result.get('date'), 'YYYY/MM/DD'));
+              result.set('in', formatDate(result.get('in'), 'hh:mm'));
+              result.set('out', formatDate(result.get('out'), 'hh:mm'));
+            }
+            
             retrievedInOutTimeRecList = results;
             promise.resolve();
           });
