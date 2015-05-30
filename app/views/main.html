@@ -1,6 +1,6 @@
 <span class="dropdown" dwopdown>
   <button class="btn btn-default dropdown-toggle" dropdown-toggle type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-    対象者
+    <span>{{currentMember.get('name') || '対象者'}}</span>
     <span class="caret"></span>
   </button>
   <ul class="dropdown-menu" dropdown-menu role="menu" aria-labelledby="dropdownMenu1">
@@ -9,7 +9,7 @@
 </span>
 <span class="dropdown" dwopdown>
   <button class="btn btn-default dropdown-toggle" dropdown-toggle type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-    対象年月
+    <span>{{currentTargetMonth || '対象年月'}}</span>
     <span class="caret"></span>
   </button>
   <ul class="dropdown-menu" dropdown-menu role="menu" aria-labelledby="dropdownMenu1">
