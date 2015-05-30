@@ -46,6 +46,7 @@ angular.module('chroneco')
 
         var promises = [];
 
+        // 出退勤時刻を取得するPromise
         var getInOutTimePromise = function () {
           var promise = new Parse.Promise();
 
@@ -67,19 +68,21 @@ angular.module('chroneco')
 
           query.find().then(function(results) {
 
+            // 日付、出勤時刻、退勤時刻をフォーマット
             for(var index = 0; index < results.length; index++) {
               var result = results[index];
               result.set('date', formatDate(result.get('date'), 'YYYY/MM/DD'));
               result.set('in', formatDate(result.get('in'), 'hh:mm'));
               result.set('out', formatDate(result.get('out'), 'hh:mm'));
             }
-            
+
             retrievedInOutTimeRecList = results;
             promise.resolve();
           });
           return promise;
         };
 
+        // 全社員を取得するPromise
         var getMemberPromise = function () {
           var promise = new Parse.Promise();
 
@@ -93,57 +96,33 @@ angular.module('chroneco')
           return promise;
         };
 
+        // Parse.Promise.whenに渡すために配列にPromiseを格納。
         promises.push(getInOutTimePromise());
         promises.push(getMemberPromise());
 
+        // 出退勤時刻と社員情報を両方取得し終わったら
         Parse.Promise.when(promises).then(function() {
 
+          // 出退勤時刻の member 列のid（ObjectId）で氏名を取得
           angular.forEach(retrievedInOutTimeRecList, function(retrievedInOutTimeRec) {
+
+            var keepGoing = true;
             angular.forEach(retrievedMemberList, function(retrievedMember) {
-              if (retrievedInOutTimeRec.get('member').id === retrievedMember.id) {
-                retrievedInOutTimeRec.set('memberName', retrievedMember.get('name'));
+              if (keepGoing) {
+                if (retrievedInOutTimeRec.get('member').id === retrievedMember.id) {
+                  retrievedInOutTimeRec.set('memberName', retrievedMember.get('name'));
+                  keepGoing = false;
+                }
               }
             });
           });
 
+          // retrievedInOutTimeRecListに指名をセットし終わったので、画面更新
           $scope.$apply(function() {
             $scope.inOutTimeList = retrievedInOutTimeRecList;
           });
         });
 
-        // query.find().then(function(results) {
-        //
-        //   retrievedInOutTimeRecList = results;
-        //
-        // }).then(function() {
-        //   $scope.$apply(function() {
-        //     $scope.inOutTimeList = retrievedInOutTimeRecList;
-        //   });
-        // });
-
-    		// query.find({
-    		//   success: function(results) {
-        //     for(var index = 0; index < results.length; index++) {
-        //       var result = results[index];
-        //       result.set('date', formatDate(result.get('date'), 'YYYY/MM/DD'));
-        //       result.set('in', formatDate(result.get('in'), 'hh:mm'));
-        //       result.set('out', formatDate(result.get('out'), 'hh:mm'));
-        //
-        //       var member = result.get('member');
-        //       member.fetch({
-        //         success: function(member) {
-        //           result.set("memberName", member.get("name"));
-        //         }
-        //       });
-        //     }
-    		//   	$scope.$apply(function() {
-    		// 	  	$scope.inOutTimeList = results;
-    		//   	});
-    		//   },
-    		//   error: function(error) {
-    		//     alert("Error: " + error.code + " " + error.message);
-    		//   }
-    		// });
     };
 
     $scope.getMembers = function() {
