@@ -62,6 +62,12 @@ angular
         controller: 'MemberController',
         requireLogin: true
       })
+      .state('admin', {
+        url: '/admin',
+        templateUrl: 'views/admin.html',
+        controller: 'AdminController',
+        requireLogin: true
+      })
       .state('login', {
         url: '/login',
         templateUrl: 'views/login.html',

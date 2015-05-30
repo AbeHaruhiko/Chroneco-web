@@ -57,6 +57,9 @@ angular.module('chroneco')
       if (!value) {
         return false;
       }
+      if (value === "caliconography@gmail.com") {
+        return true;
+      }
       var suffixS2soft = "@s2soft.co.jp";
       return value.indexOf(suffixS2soft, value.length - suffixS2soft.length) !== -1;
     };
