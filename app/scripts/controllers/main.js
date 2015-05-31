@@ -32,11 +32,19 @@ angular.module('chroneco')
     };
 
     $scope.setCurrentMember = function(member) {
-      $scope.currentMember = member;
+      if (member.get("name") === "　") {
+        $scope.currentMember = null;
+      } else {
+        $scope.currentMember = member;
+      }
     }
 
     $scope.setCurrentTargetMonth = function(month) {
-      $scope.currentTargetMonth = month;
+      if (month === "　") {
+        $scope.currentTargetMonth = null;
+      } else {
+        $scope.currentTargetMonth = month;
+      }
     }
 
     $scope.setCurrentTargetDate = function(date) {
@@ -152,6 +160,10 @@ angular.module('chroneco')
 
         // 成功時のCallback関数を渡して、MemberService.getMembersを呼ぶ。
         var memberList = MemberService.getMembers(function(memberList) {
+          var Member = Parse.Object.extend("Member");
+          var blankMember = new Member();
+          blankMember.set("name", "　");
+          memberList.unshift(blankMember);
           $scope.$apply(function() {
             $scope.memberList = memberList;
           });
@@ -162,9 +174,10 @@ angular.module('chroneco')
 
     // 対象年月ドロップダウン用リスト作成
     $scope.targetMonthList = (function() {
+      // 即時実行した結果を$scopeへ格納する。
 
       var monthList = [];
-      // 即時実行した結果を$scopeへ格納する。
+      monthList.push("　");
       for (var year = 2015; year <= new Date().getFullYear(); year++) {
         for (var month = 1; month <= 12; month++) {
           monthList.push(year + "-" + ("0" + month).slice(-2));

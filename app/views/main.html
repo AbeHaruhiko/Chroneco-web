@@ -22,7 +22,7 @@
     <span class="caret"></span>
   </button>
   <ul class="dropdown-menu" dropdown-menu role="menu" aria-labelledby="dropdownMenu1">
-    <li role="presentation" ng-repeat="targetDate in [] | range:31"><a role="menuitem" tabindex="-1" ng-click="setCurrentTargetDate(targetDate + 1);getMemberInOutTimes();">{{targetDate + 1}}</a></li>
+    <li role="presentation" ng-repeat="targetDate in [] | rangeFromOneWithBlank:31"><a role="menuitem" tabindex="-1" ng-click="setCurrentTargetDate(targetDate);getMemberInOutTimes();">{{targetDate}}</a></li>
   </ul>
 </span>
 <hr/>
