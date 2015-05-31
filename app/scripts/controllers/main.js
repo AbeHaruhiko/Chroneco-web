@@ -39,6 +39,10 @@ angular.module('chroneco')
       $scope.currentTargetMonth = month;
     }
 
+    $scope.setCurrentTargetDate = function(date) {
+      $scope.currentTargetDate = date;
+    }
+
     $scope.getMemberInOutTimes = function() {
 
         var retrievedInOutTimeRecList = null;
@@ -58,10 +62,15 @@ angular.module('chroneco')
             query.equalTo("member", $scope.currentMember);
           }
 
-          // 対象年月絞込
+          // 対象年月日絞込
           if ($scope.currentTargetMonth) {
-            query.greaterThanOrEqualTo("date", moment($scope.currentTargetMonth + "-01", "YYYY-MM-DD").toDate());
-            query.lessThanOrEqualTo("date", moment($scope.currentTargetMonth + "-01").endOf('month').toDate());
+            if ($scope.currentTargetDate) {
+              query.greaterThanOrEqualTo("date", moment($scope.currentTargetMonth + "-" + $scope.currentTargetDate, "YYYY-MM-DD").toDate());
+              query.lessThan("date", moment($scope.currentTargetMonth + "-" + $scope.currentTargetDate, "YYYY-MM-DD").add(1, "days").toDate());
+            } else {
+              query.greaterThanOrEqualTo("date", moment($scope.currentTargetMonth + "-01", "YYYY-MM-DD").toDate());
+              query.lessThanOrEqualTo("date", moment($scope.currentTargetMonth + "-01").endOf('month').toDate());
+            }
           }
 
       		query.ascending("date");
