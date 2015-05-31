@@ -16,6 +16,15 @@
     <li role="presentation" ng-repeat="targetMonth in targetMonthList"><a role="menuitem" tabindex="-1" ng-click="setCurrentTargetMonth(targetMonth);getMemberInOutTimes();">{{targetMonth}}</a></li>
   </ul>
 </span>
+<span class="dropdown" dwopdown>
+  <button class="btn btn-default dropdown-toggle" dropdown-toggle type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+    <span>{{currentTargetDate || '対象日'}}</span>
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" dropdown-menu role="menu" aria-labelledby="dropdownMenu1">
+    <li role="presentation" ng-repeat="targetDate in [] | range:31"><a role="menuitem" tabindex="-1" ng-click="setCurrentTargetDate(targetDate + 1);getMemberInOutTimes();">{{targetDate + 1}}</a></li>
+  </ul>
+</span>
 <hr/>
 <table class="table table-bordered .table-striped">
   <th>氏名</th>
