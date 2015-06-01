@@ -29,8 +29,8 @@
 <table class="table table-bordered .table-striped">
   <th>氏名</th>
   <th>日付</th>
-  <th>出勤</th>
-  <th>退勤</th>
+  <th>出勤（直行時打刻）</th>
+  <th>退勤（直帰時打刻）</th>
   <tr ng-repeat="inOutTime in inOutTimeList">
     <td>
       {{inOutTime.get('memberName')}}
@@ -39,10 +39,10 @@
       {{inOutTime.get('date')}}
     </td>
     <td>
-      {{inOutTime.get('in')}}
+      {{inOutTime.get('in')}}<span ng-show="inOutTime.get('chokko')">{{"（" + (inOutTime.get("chokkoDakokuTime") || "-") + "）" }}</span>
     </td>
     <td>
-      {{inOutTime.get('out')}}
+      {{inOutTime.get('out')}}<span ng-show="inOutTime.get('chokki')">{{"（" + (inOutTime.get('chokkiDakokuTime') || "-")+ "）"}}</span>
     </td>
   </tr>
 </table>

@@ -91,6 +91,8 @@ angular.module('chroneco')
               result.set('date', formatDate(result.get('date'), 'YYYY/MM/DD'));
               result.set('in', formatDate(result.get('in'), 'hh:mm'));
               result.set('out', formatDate(result.get('out'), 'hh:mm'));
+              result.set('chokkoDakokuTime', formatDate(result.get('chokkoDakokuTime'), 'hh:mm'));
+              result.set('chokkiDakokuTime', formatDate(result.get('chokkiDakokuTime'), 'hh:mm'));
             }
 
             retrievedInOutTimeRecList = results;
