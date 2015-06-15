@@ -88,9 +88,18 @@ angular.module('chroneco')
             // 日付、出勤時刻、退勤時刻をフォーマット
             for(var index = 0; index < results.length; index++) {
               var result = results[index];
-              result.set('date', formatDate(result.get('date'), 'YYYY/MM/DD'));
+
+              var targetDate = formatDate(result.get('date'), 'YYYY/MM/DD');
+              result.set('date', targetDate);
               result.set('in', formatDate(result.get('in'), 'hh:mm'));
-              result.set('out', formatDate(result.get('out'), 'hh:mm'));
+
+              // 午前様対応
+              var outDate = formatDate(result.get('out'), 'YYYY/MM/DD')
+              if (targetDate == outDate) {
+                result.set('out', formatDate(result.get('out'), 'hh:mm'));
+              } else {
+                result.set('out', formatDate(result.get('out'), 'MM/DD hh:mm'));
+              }
               result.set('chokkoDakokuTime', formatDate(result.get('chokkoDakokuTime'), 'hh:mm'));
               result.set('chokkiDakokuTime', formatDate(result.get('chokkiDakokuTime'), 'hh:mm'));
             }
