@@ -19,6 +19,10 @@ angular.module('chroneco')
       		query.ascending("dispOrder");
       		query.find({
       		  success: function(results) {
+              // 退職社員はdispOrderが負の値になっているので、絶対値にしてソート
+              results.sort(function(member1, member2) {
+                return Math.abs(member1.get('dispOrder')) - Math.abs(member2.get('dispOrder'));
+              });
               successCallback(results);
       		  },
       		  error: function(error) {
